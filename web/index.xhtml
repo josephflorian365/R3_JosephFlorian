@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>PERSONA</title>
+    </h:head>
+    <h:body>
+
+        <p:growl id="msj" showDetail="true" life="5000" >
+            <p:autoUpdate/>
+        </p:growl>  
+
+        <h:form id="form">
+            <h1><center>INFORME PERSONAL</center></h1>
+            <center><h2><font color="blue">DEMO</font> </h2></center>
+            <p:fieldset legend="Datos Personales" toggleable="true">
+            <p:panelGrid columns="2" id="panel">
+                <h:outputLabel value="DNI"/>
+                <p:inputMask id="dni" placeholder="ingrese el dni"  value="#{Anotaciones.persona.DNI}" maxlength="8" 
+                                 required="true" requiredMessage="Falta dni" mask="99999999"/>
+                <h:outputLabel value="Nombre"/>
+                <p:inputText placeholder="Ingrese el nombre" value="#{Anotaciones.persona.NOMBRE}" required="true" requiredMessage="Falta nombre" maxlength="30">
+                <p:keyFilter regEx="/[A-Z_a-z_ñ_á_é_í_ó_ú_' ']/" />
+                </p:inputText>
+            </p:panelGrid>
+                </p:fieldset>
+            <p:commandButton value="Agregar" 
+                             actionListener="#{Anotaciones.agregar()}"
+                             update="tabla :form:panel"/>
+
+            <p:commandButton value="Eliminar" 
+                             actionListener="#{Anotaciones.eliminar()}"
+                             update="tabla"/>
+            <p:dataTable value="#{Anotaciones.lst}"
+                         id="tabla"
+                         var="tabla"
+                         selectionMode="single"
+                         selection="#{Anotaciones.seleccionPersona}"
+                         rowKey="#{tabla.DNI}"
+                         >
+                <p:column headerText="DNI">
+                    #{tabla.DNI}
+                </p:column>
+                <p:column headerText="Nombre">
+                    #{tabla.NOMBRE}
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </h:body>
+</html>
+
