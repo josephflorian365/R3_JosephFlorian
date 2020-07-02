@@ -1,19 +1,21 @@
 package modelo;
 
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
-import lombok.Value;
 
 @EqualsAndHashCode(exclude = {"NOMBRE"})
 @ToString
-
+@NoArgsConstructor
 public class PersonaM {
 
     @NonNull
     private Integer DNI;
     @NonNull
     private String NOMBRE;
+    @NonNull
+    private String EMAIL;
 
     public Integer getDNI() {
         return DNI;
@@ -29,6 +31,14 @@ public class PersonaM {
 
     public void setNOMBRE(String NOMBRE) {
         this.NOMBRE = NOMBRE;
+    }
+
+    public String getEMAIL() {
+        return EMAIL;
+    }
+
+    public void setEMAIL(String EMAIL) {
+        this.EMAIL = EMAIL;
     }
 
 

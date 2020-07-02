@@ -5,9 +5,10 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
 
 @Named(value = "Anotaciones")
 @SessionScoped
@@ -41,16 +42,30 @@ public class PersonaC implements Serializable {
     }
 
     public void agregar() {
+
         if (lst.contains(persona) || lstpersona.contains(persona)) {
-                FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "El registro ya existe ", "Dato duplicado"));
-                return;
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "El registro ya existe ", "Dato duplicado"));
+            return;
+        }
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher mather = pattern.matcher(persona.getEMAIL());
+        if (mather.find() == true) {
+            PersonaM t = new PersonaM();
+            t.setDNI(persona.getDNI());
+            t.setNOMBRE(persona.getNOMBRE());
+            t.setEMAIL(persona.getEMAIL());
+            lst.add(t);
+            persona = new PersonaM();
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Validación", "Guardado"));
+        } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario invalido", "Error en email"));
             }
-        PersonaM t = new PersonaM();
-        t.setDNI(persona.getDNI());
-        t.setNOMBRE(persona.getNOMBRE());
-        lst.add(t);
-        persona = new PersonaM();
+
     }
 
     public PersonaM getSeleccionPersona() {
@@ -71,6 +86,16 @@ public class PersonaC implements Serializable {
         }
 
         seleccionPersona = null;
+    }
+
+    public void validar() {
+
+        try {
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
     }
 
 }
